@@ -71,5 +71,16 @@ class TestKPExceptions(unittest.TestCase):
         self.assertEqual(keyword_processor.replace_keywords(""), "",
                          "new_sentence don't match the expected result")
 
+    def test_empty_string_first_occ(self):
+        keyword_processor = KeywordProcessor()
+        keyword_dict = {
+            "java": "java_2e",
+            "product management": "product manager"
+        }
+        self.assertEqual(keyword_processor.extract_keywords("", stop_at_first_occ=True), [],
+                         "new_sentence don't match the expected result")
+        self.assertEqual(keyword_processor.replace_keywords(""), "",
+                         "new_sentence don't match the expected result")
+
 if __name__ == '__main__':
     unittest.main()
