@@ -1,0 +1,22 @@
+box: python:3.7.4
+services:
+build:
+    steps:
+        - script:
+            name: virtualenv install
+            code: pip install virtualenv
+        - virtualenv:
+            name: setup virtual environment
+            install_wheel: true
+        - script:
+              name: Install test dependencies
+              code: pip install -r test-requirements.txt
+        - script:
+            name: Install project
+            code: pip install .
+        - script:
+            name: Check files are blackened
+            code: black --check src/
+        - script:
+            name: Run tests
+            code: py.test --black tests/

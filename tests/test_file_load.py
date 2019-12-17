@@ -1,4 +1,4 @@
-from flashtext import KeywordProcessor
+from chatbot.flashtext.keyword import KeywordProcessor
 import logging
 import unittest
 import json
@@ -15,7 +15,7 @@ class TestFileLoad(unittest.TestCase):
 
     def test_file_format_one(self):
         keyword_processor = KeywordProcessor()
-        keyword_processor.add_keyword_from_file('test/keywords_format_one.txt')
+        keyword_processor.add_keyword_from_file('tests/keywords_format_one.txt')
         sentence = 'I know java_2e and product management techniques'
         keywords_extracted = keyword_processor.extract_keywords(sentence)
         self.assertEqual(keywords_extracted, ['java', 'product management'],
@@ -26,7 +26,7 @@ class TestFileLoad(unittest.TestCase):
 
     def test_file_format_one_first_occ(self):
         keyword_processor = KeywordProcessor()
-        keyword_processor.add_keyword_from_file('test/keywords_format_one.txt')
+        keyword_processor.add_keyword_from_file('tests/keywords_format_one.txt')
         sentence = 'I know java_2e and product management techniques'
         keywords_extracted = keyword_processor.extract_keywords(sentence, stop_at_first_occ=True)
         self.assertEqual(keywords_extracted, ['java'],
@@ -37,7 +37,7 @@ class TestFileLoad(unittest.TestCase):
 
     def test_file_format_two(self):
         keyword_processor = KeywordProcessor()
-        keyword_processor.add_keyword_from_file('test/keywords_format_two.txt')
+        keyword_processor.add_keyword_from_file('tests/keywords_format_two.txt')
         sentence = 'I know java and product management'
         keywords_extracted = keyword_processor.extract_keywords(sentence)
         self.assertEqual(keywords_extracted, ['java', 'product management'],
@@ -48,7 +48,7 @@ class TestFileLoad(unittest.TestCase):
 
     def test_file_format_two_first_occ(self):
         keyword_processor = KeywordProcessor()
-        keyword_processor.add_keyword_from_file('test/keywords_format_two.txt')
+        keyword_processor.add_keyword_from_file('tests/keywords_format_two.txt')
         sentence = 'I know java and product management'
         keywords_extracted = keyword_processor.extract_keywords(sentence, stop_at_first_occ=True)
         self.assertEqual(keywords_extracted, ['java'],

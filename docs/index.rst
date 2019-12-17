@@ -1,253 +1,59 @@
-.. FlashText documentation master file, created by
-   sphinx-quickstart on Wed Aug 16 22:47:29 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+=========
+flashtext
+=========
+
+This is the documentation of **flashtext**.
+
+.. note::
+
+    This is the main page of your project's `Sphinx`_ documentation.
+    It is formatted in `reStructuredText`_. Add additional pages
+    by creating rst-files in ``docs`` and adding them to the `toctree`_ below.
+    Use then `references`_ in order to link them from this page, e.g.
+    :ref:`authors` and :ref:`changes`.
+
+    It is also possible to refer to the documentation of other Python packages
+    with the `Python domain syntax`_. By default you can reference the
+    documentation of `Sphinx`_, `Python`_, `NumPy`_, `SciPy`_, `matplotlib`_,
+    `Pandas`_, `Scikit-Learn`_. You can add more by extending the
+    ``intersphinx_mapping`` in your Sphinx's ``conf.py``.
+
+    The pretty useful extension `autodoc`_ is activated by default and lets
+    you include documentation from docstrings. Docstrings can be written in
+    `Google style`_ (recommended!), `NumPy style`_ and `classical style`_.
 
 
-FlashText's documentation!
-==========================
-
-.. image:: https://api.travis-ci.org/vi3k6i5/flashtext.svg?branch=master
-    :target: https://travis-ci.org/vi3k6i5/flashtext
-    :alt: Build Status
-
-.. image:: https://readthedocs.org/projects/flashtext/badge/?version=latest
-    :target: http://flashtext.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
-
-.. image:: https://badge.fury.io/py/flashtext.svg
-    :target: https://badge.fury.io/py/flashtext
-    :alt: Version
-
-.. image:: https://coveralls.io/repos/github/vi3k6i5/flashtext/badge.svg?branch=master
-   :target: https://coveralls.io/github/vi3k6i5/flashtext?branch=master
-   :alt: Test coverage
-
-.. image:: https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000
-    :target: https://github.com/vi3k6i5/flashtext/blob/master/LICENSE
-    :alt: license
-
-This module can be used to replace keywords in sentences or extract keywords from sentences. It is based on the `FlashText algorithm <https://arxiv.org/abs/1711.00046>`_.
-
-
-Installation
-------------
-::
-
-    $ pip install flashtext
-
-
-Usage
------
-Extract keywords
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> # keyword_processor.add_keyword(<unclean name>, <standardised name>)
-    >>> keyword_processor.add_keyword('Big Apple', 'New York')
-    >>> keyword_processor.add_keyword('Bay Area')
-    >>> keywords_found = keyword_processor.extract_keywords('I love Big Apple and Bay Area.')
-    >>> keywords_found
-    >>> # ['New York', 'Bay Area']
-
-Replace keywords
-    >>> keyword_processor.add_keyword('New Delhi', 'NCR region')
-    >>> new_sentence = keyword_processor.replace_keywords('I love Big Apple and new delhi.')
-    >>> new_sentence
-    >>> # 'I love New York and NCR region.'
-
-Case Sensitive example
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor(case_sensitive=True)
-    >>> keyword_processor.add_keyword('Big Apple', 'New York')
-    >>> keyword_processor.add_keyword('Bay Area')
-    >>> keywords_found = keyword_processor.extract_keywords('I love big Apple and Bay Area.')
-    >>> keywords_found
-    >>> # ['Bay Area']
-
-Span of keywords extracted
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor(case_sensitive=True)
-    >>> keyword_processor.add_keyword('Big Apple', 'New York')
-    >>> keyword_processor.add_keyword('Bay Area')
-    >>> keywords_found = keyword_processor.extract_keywords('I love big Apple and Bay Area.', span_info=True)
-    >>> keywords_found
-    >>> # [('Bay Area', 21, 29)]
-
-No clean name for Keywords
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_processor.add_keyword('Big Apple')
-    >>> keyword_processor.add_keyword('Bay Area')
-    >>> keywords_found = keyword_processor.extract_keywords('I love big Apple and Bay Area.')
-    >>> keywords_found
-    >>> # ['Big Apple', 'Bay Area']
-
-Add Multiple Keywords simultaneously
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_dict = {
-    >>>     "java": ["java_2e", "java programing"],
-    >>>     "product management": ["PM", "product manager"]
-    >>> }
-    >>> # {'clean_name': ['list of unclean names']}
-    >>> keyword_processor.add_keywords_from_dict(keyword_dict)
-    >>> # Or add keywords from a list:
-    >>> keyword_processor.add_keywords_from_list(["java", "python"])
-    >>> keyword_processor.extract_keywords('I am a product manager for a java_2e platform')
-    >>> # output ['product management', 'java']
-
-To Remove keywords
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_dict = {
-    >>>     "java": ["java_2e", "java programing"],
-    >>>     "product management": ["PM", "product manager"]
-    >>> }
-    >>> keyword_processor.add_keywords_from_dict(keyword_dict)
-    >>> print(keyword_processor.extract_keywords('I am a product manager for a java_2e platform'))
-    >>> # output ['product management', 'java']
-    >>> keyword_processor.remove_keyword('java_2e')
-    >>> # you can also remove keywords from a list/ dictionary
-    >>> keyword_processor.remove_keywords_from_dict({"product management": ["PM"]})
-    >>> keyword_processor.remove_keywords_from_list(["java programing"])
-    >>> keyword_processor.extract_keywords('I am a product manager for a java_2e platform')
-    >>> # output ['product management']
-
-To check Number of terms in KeywordProcessor
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_dict = {
-    >>>     "java": ["java_2e", "java programing"],
-    >>>     "product management": ["PM", "product manager"]
-    >>> }
-    >>> keyword_processor.add_keywords_from_dict(keyword_dict)
-    >>> print(len(keyword_processor))
-    >>> # output 4
-
-To check if term is present in KeywordProcessor
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_processor.add_keyword('j2ee', 'Java')
-    >>> 'j2ee' in keyword_processor
-    >>> # output: True
-    >>> keyword_processor.get_keyword('j2ee')
-    >>> # output: Java
-    >>> keyword_processor['colour'] = 'color'
-    >>> keyword_processor['colour']
-    >>> # output: color
-
-Get all keywords in dictionary
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_processor.add_keyword('j2ee', 'Java')
-    >>> keyword_processor.add_keyword('colour', 'color')
-    >>> keyword_processor.get_all_keywords()
-    >>> # output: {'colour': 'color', 'j2ee': 'Java'}
-
-For detecting Word Boundary currently any character other than this `\\w` `[A-Za-z0-9_]` is considered a word boundary.
-
-To set or add characters as part of word characters
-    >>> from flashtext import KeywordProcessor
-    >>> keyword_processor = KeywordProcessor()
-    >>> keyword_processor.add_keyword('Big Apple')
-    >>> print(keyword_processor.extract_keywords('I love Big Apple/Bay Area.'))
-    >>> # ['Big Apple']
-    >>> keyword_processor.add_non_word_boundary('/')
-    >>> print(keyword_processor.extract_keywords('I love Big Apple/Bay Area.'))
-    >>> # []
-
-
-API doc
--------
+Contents
+========
 
 .. toctree::
-    :maxdepth: 2
-    :caption: KeywordProcessor
+   :maxdepth: 2
 
-    api
-    keyword_processor
-
-
-Test
-----
-::
-
-    $ git clone https://github.com/vi3k6i5/flashtext
-    $ cd flashtext
-    $ pip install pytest
-    $ python setup.py test
+   License <license>
+   Authors <authors>
+   Changelog <changelog>
+   Module Reference <api/modules>
 
 
-Build Docs
-----------
-::
+Indices and tables
+==================
 
-    $ git clone https://github.com/vi3k6i5/flashtext
-    $ cd flashtext/docs
-    $ pip install sphinx
-    $ make html
-    $ # open _build/html/index.html in browser to view it locally
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
-
-Why not Regex?
---------------
-
-It's a custom algorithm based on `Aho-Corasick algorithm
-<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_ and `Trie Dictionary
-<https://en.wikipedia.org/wiki/Trie Dictionary>`_.
-
-.. image:: https://github.com/vi3k6i5/flashtext/raw/master/benchmark.png
-   :target: https://twitter.com/RadimRehurek/status/904989624589803520
-   :alt: Benchmark
-
-
-Time taken by FlashText to find terms in comparison to Regex.
-
-.. image:: https://thepracticaldev.s3.amazonaws.com/i/xruf50n6z1r37ti8rd89.png
-
-
-Time taken by FlashText to replace terms in comparison to Regex.
-
-.. image:: https://thepracticaldev.s3.amazonaws.com/i/k44ghwp8o712dm58debj.png
-
-Link to code for benchmarking the `Find Feature <https://gist.github.com/vi3k6i5/604eefd92866d081cfa19f862224e4a0>`_ and `Replace Feature <https://gist.github.com/vi3k6i5/dc3335ee46ab9f650b19885e8ade6c7a>`_.
-
-The idea for this library came from the following `StackOverflow question
-<https://stackoverflow.com/questions/44178449/regex-replace-is-taking-time-for-millions-of-documents-how-to-make-it-faster>`_.
-
-
-Citation
-----------
-
-The original paper published on `FlashText algorithm <https://arxiv.org/abs/1711.00046>`_.
-
-::
-
-    @ARTICLE{2017arXiv171100046S,
-       author = {{Singh}, V.},
-        title = "{Replace or Retrieve Keywords In Documents at Scale}",
-      journal = {ArXiv e-prints},
-    archivePrefix = "arXiv",
-       eprint = {1711.00046},
-     primaryClass = "cs.DS",
-     keywords = {Computer Science - Data Structures and Algorithms},
-         year = 2017,
-        month = oct,
-       adsurl = {http://adsabs.harvard.edu/abs/2017arXiv171100046S},
-      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
-    }
-
-The article published on `Medium freeCodeCamp <https://medium.freecodecamp.org/regex-was-taking-5-days-flashtext-does-it-in-15-minutes-55f04411025f>`_.
-
-
-Contribute
-----------
-
-- Issue Tracker: https://github.com/vi3k6i5/flashtext/issues
-- Source Code: https://github.com/vi3k6i5/flashtext/
-
-
-License
--------
-
-The project is licensed under the MIT license.
+.. _toctree: http://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html
+.. _reStructuredText: http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+.. _references: http://www.sphinx-doc.org/en/stable/markup/inline.html
+.. _Python domain syntax: http://sphinx-doc.org/domains.html#the-python-domain
+.. _Sphinx: http://www.sphinx-doc.org/
+.. _Python: http://docs.python.org/
+.. _Numpy: http://docs.scipy.org/doc/numpy
+.. _SciPy: http://docs.scipy.org/doc/scipy/reference/
+.. _matplotlib: https://matplotlib.org/contents.html#
+.. _Pandas: http://pandas.pydata.org/pandas-docs/stable
+.. _Scikit-Learn: http://scikit-learn.org/stable
+.. _autodoc: http://www.sphinx-doc.org/en/stable/ext/autodoc.html
+.. _Google style: https://github.com/google/styleguide/blob/gh-pages/pyguide.md#38-comments-and-docstrings
+.. _NumPy style: https://numpydoc.readthedocs.io/en/latest/format.html
+.. _classical style: http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists

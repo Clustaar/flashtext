@@ -1,0 +1,5 @@
+============
+Contributors
+============
+
+* Vikash Singh <vikash.duliajan@gmail.com>

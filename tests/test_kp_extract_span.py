@@ -1,4 +1,4 @@
-from flashtext import KeywordProcessor
+from chatbot.flashtext.keyword import KeywordProcessor
 import logging
 import unittest
 import json
@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class TestKPExtractorSpan(unittest.TestCase):
     def setUp(self):
         logger.info("Starting...")
-        with open('test/keyword_extractor_test_cases.json') as f:
+        with open('tests/keyword_extractor_test_cases.json') as f:
             self.test_cases = json.load(f)
 
     def tearDown(self):
