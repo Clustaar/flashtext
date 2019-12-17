@@ -1,7 +1,6 @@
 from chatbot.flashtext.keyword import KeywordProcessor
 import logging
 import unittest
-import json
 
 logger = logging.getLogger(__name__)
 

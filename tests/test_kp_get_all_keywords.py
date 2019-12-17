@@ -2,8 +2,6 @@ from collections import defaultdict
 from chatbot.flashtext.keyword import KeywordProcessor
 import logging
 import unittest
-import json
-import re
 
 logger = logging.getLogger(__name__)
 
