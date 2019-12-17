@@ -17,25 +17,28 @@ class TestListLoad(unittest.TestCase):
         keyword_processor = KeywordProcessor()
         keyword_list = ["java", "product management"]
         keyword_processor.add_keywords_from_list(keyword_list)
-        sentence = 'I know java and product management'
+        sentence = "I know java and product management"
         keywords_extracted = keyword_processor.extract_keywords(sentence)
-        self.assertEqual(keywords_extracted, ['java', 'product management'],
-                         "Failed file format one test")
+        self.assertEqual(
+            keywords_extracted, ["java", "product management"], "Failed file format one test"
+        )
         sentence_new = keyword_processor.replace_keywords(sentence)
-        self.assertEqual(sentence_new, "I know java and product management",
-                         "Failed file format one test")
+        self.assertEqual(
+            sentence_new, "I know java and product management", "Failed file format one test"
+        )
 
     def test_list_loading_first_occ(self):
         keyword_processor = KeywordProcessor()
         keyword_list = ["java", "product management"]
         keyword_processor.add_keywords_from_list(keyword_list)
-        sentence = 'I know java and product management'
+        sentence = "I know java and product management"
         keywords_extracted = keyword_processor.extract_keywords(sentence, stop_at_first_occ=True)
-        self.assertEqual(keywords_extracted, ['java'],
-                         "Failed file format one test")
+        self.assertEqual(keywords_extracted, ["java"], "Failed file format one test")
         sentence_new = keyword_processor.replace_keywords(sentence)
-        self.assertEqual(sentence_new, "I know java and product management",
-                         "Failed file format one test")
+        self.assertEqual(
+            sentence_new, "I know java and product management", "Failed file format one test"
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

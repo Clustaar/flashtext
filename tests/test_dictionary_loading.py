@@ -17,33 +17,36 @@ class TestDictionaryLoad(unittest.TestCase):
         keyword_processor = KeywordProcessor()
         keyword_dict = {
             "java": ["java_2e", "java programing"],
-            "product management": ["product management techniques", "product management"]
+            "product management": ["product management techniques", "product management"],
         }
         keyword_processor.add_keywords_from_dict(keyword_dict)
 
-        sentence = 'I know java_2e and product management techniques'
+        sentence = "I know java_2e and product management techniques"
         keywords_extracted = keyword_processor.extract_keywords(sentence)
-        self.assertEqual(keywords_extracted, ['java', 'product management'],
-                         "Failed file format one test")
+        self.assertEqual(
+            keywords_extracted, ["java", "product management"], "Failed file format one test"
+        )
         sentence_new = keyword_processor.replace_keywords(sentence)
-        self.assertEqual(sentence_new, "I know java and product management",
-                         "Failed file format one test")
+        self.assertEqual(
+            sentence_new, "I know java and product management", "Failed file format one test"
+        )
 
     def test_dictionary_loading_first_occ(self):
         keyword_processor = KeywordProcessor()
         keyword_dict = {
             "java": ["java_2e", "java programing"],
-            "product management": ["product management techniques", "product management"]
+            "product management": ["product management techniques", "product management"],
         }
         keyword_processor.add_keywords_from_dict(keyword_dict)
 
-        sentence = 'I know java_2e and product management techniques'
+        sentence = "I know java_2e and product management techniques"
         keywords_extracted = keyword_processor.extract_keywords(sentence, stop_at_first_occ=True)
-        self.assertEqual(keywords_extracted, ['java'],
-                         "Failed file format one test")
+        self.assertEqual(keywords_extracted, ["java"], "Failed file format one test")
         sentence_new = keyword_processor.replace_keywords(sentence)
-        self.assertEqual(sentence_new, "I know java and product management",
-                         "Failed file format one test")
+        self.assertEqual(
+            sentence_new, "I know java and product management", "Failed file format one test"
+        )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
