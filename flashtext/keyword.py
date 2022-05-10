@@ -1,6 +1,8 @@
 import os
 import string
 
+from typing import List, Tuple
+
 
 class KeywordProcessor(object):
     """KeywordProcessor
@@ -441,13 +443,14 @@ class KeywordProcessor(object):
                     terms_present[key] = sub_values[key]
         return terms_present
 
-    def extract_keywords(self, sentence, span_info=False):
+    def extract_keywords(self, sentence: str, span_info: bool = False, stop_at_first_occ: bool = False) -> List[Tuple]:
         """Searches in the string for all keywords present in corpus.
         Keywords present are added to a list `keywords_extracted` and returned.
 
         Args:
             sentence (str): Line of text where we will search for keywords
-
+            span_info (bool): Return info about position of each keyword in the text
+            stop_at_first_occ (bool): Stop at first occurrence found
         Returns:
             keywords_extracted (list(str)): List of terms/keywords found in sentence that match our corpus
 
@@ -517,7 +520,11 @@ class KeywordProcessor(object):
                             idx = sequence_end_pos
                     current_dict = self.keyword_trie_dict
                     if longest_sequence_found:
-                        keywords_extracted.append((longest_sequence_found, sequence_start_pos, idx))
+                        if stop_at_first_occ:
+                            keywords_extracted = [(longest_sequence_found, sequence_start_pos, idx)]
+                            break
+                        else:
+                            keywords_extracted.append((longest_sequence_found, sequence_start_pos, idx))
                     reset_current_dict = True
                 else:
                     # we reset current_dict
@@ -542,7 +549,11 @@ class KeywordProcessor(object):
             if idx + 1 >= sentence_len:
                 if self._keyword in current_dict:
                     sequence_found = current_dict[self._keyword]
-                    keywords_extracted.append((sequence_found, sequence_start_pos, sentence_len))
+                    if stop_at_first_occ:
+                        keywords_extracted = [(sequence_found, sequence_start_pos, sentence_len)]
+                        break
+                    else:
+                        keywords_extracted.append((sequence_found, sequence_start_pos, sentence_len))
             idx += 1
             if reset_current_dict:
                 reset_current_dict = False
